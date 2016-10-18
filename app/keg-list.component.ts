@@ -5,8 +5,12 @@ import { Keg } from './keg.model';
   selector: 'keg-list',
   template: `
     <div *ngFor ="let currentKeg of childKegList">
-      <h3>{{ currentKeg.name }}</h3>
-      <button (click)="editButtonHasBeenClicked(currentKeg)">Edit</button>
+      <div class ="kegDiv">
+        <h3>{{ currentKeg.name }} by {{ currentKeg.brand}}</h3>
+        <h5>Cost: $\{{ currentKeg.price }} per keg. ($\{{ currentKeg.costPerPint }} per pint.)</h5>
+        <h5>{{ currentKeg.abv}} percent alcohol.</h5>
+        <button (click)="editButtonHasBeenClicked(currentKeg)">Edit</button>
+      </div>
     </div>
 
   `
