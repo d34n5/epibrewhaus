@@ -20,8 +20,8 @@ import { Component } from '@angular/core';
         <input [(ngModel)] = "selectedKeg.brand">
       </div>
       <div>
-        <label>Enter Keg Price</label>
-        <input [(ngModel)] = "'$' + selectedKeg.price">
+        <label>Enter Keg Price:</label>
+        $<input [(ngModel)] = "selectedKeg.price">
       </div>
       <div>
         <label>Enter Keg ABV</label>
@@ -42,7 +42,7 @@ export class AppComponent {
       new Keg("Lorem Ipsum Lager", "Epibrewus", 620, 7.5),
       new Keg("Pliny the Coder", "Epibrewus", 868, 8)
   ];
-  selectedKeg: Keg = this.kegs[0];
+  selectedKeg: Keg = null;
   showDetails(clickedKeg: Keg) {
     this.selectedKeg = clickedKeg;
   }
