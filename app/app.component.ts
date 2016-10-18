@@ -1,42 +1,28 @@
 import { Component } from '@angular/core';
+import { Keg } from './keg.model';
 
 @Component({
   selector: 'my-app',
   template: `
   <div class="container">
     <h1>EPIBREWHAUS</h1>
-    <div *ngFor ="let currentKeg of kegs">
-      <h3>{{ currentKeg.name }}</h3>
-      <button (click)="showDetails(currentKeg)">Edit</button>
-    </div>
-    <div *ngIf="selectedKeg">
-      <h2>Edit Keg</h2>
-      <div>
-        <label>Enter Keg Name</label>
-        <input [(ngModel)] = "selectedKeg.description">
-      </div>
-      <div>
-        <label>Enter Keg Brand</label>
-        <input [(ngModel)] = "selectedKeg.brand">
-      </div>
-      <div>
-        <label>Enter Keg Price:</label>
-        $<input [(ngModel)] = "selectedKeg.price">
-      </div>
-      <div>
-        <label>Enter Keg ABV</label>
-        <input [(ngModel)] = "selectedKeg.abv">
-        <button (click)="done()">Done</button>
-      </div>
-    </div>
+    <keg-list
+        [childKegList]="masterKegList"
+        (clickSender)="showDetails($event)"
+      ></keg-list>
+    <edit-keg
+      [childSelectedKeg]="selectedKeg"
+      (doneClickedSender)="finishedEditing()"
+    ></edit-keg>
+    <new-keg
+      (newKegSender)="addKeg($event)"
+    ></new-keg>
   </div>
   `
 })
 
-
-
 export class AppComponent {
-  public kegs: Keg[] = [
+  public masterKegList: Keg[] = [
       new Keg("Dean's DIPA", "Epibrewus", 744, 9),
       new Keg("Faux PBR", "Blake's Brews", 496, 5),
       new Keg("Lorem Ipsum Lager", "Epibrewus", 620, 7.5),
@@ -46,14 +32,10 @@ export class AppComponent {
   showDetails(clickedKeg: Keg) {
     this.selectedKeg = clickedKeg;
   }
-  done() {
+  finishedEditing() {
     this.selectedKeg = null;
   }
-}
-
-
-export class Keg {
-  public pintsLeft: number = 124;
-  public costPerPint: number = this.price/124;
-  constructor(public name: string, public brand: string, public price: number, public abv: number ) { }
+  addKeg(newKegFromChild: Keg) {
+    this.masterKegList.push(newKegFromChild);
+  }
 }
