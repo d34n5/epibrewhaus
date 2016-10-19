@@ -9,6 +9,7 @@ import { Keg } from './keg.model';
     <keg-list
         [childKegList]="masterKegList"
         (clickSender)="showDetails($event)"
+        (sellClickSender)="sellPint($event)"
       ></keg-list>
     <edit-keg
       [childSelectedKeg]="selectedKeg"
@@ -23,8 +24,8 @@ import { Keg } from './keg.model';
 
 export class AppComponent {
   public masterKegList: Keg[] = [
-      new Keg("Dean's DIPA", "Epibrewus", 744, 9),
-      new Keg("Faux PBR", "Blake's Brews", 496, 5),
+      new Keg("Dean's DIPA", "Epibrewus", 749, 9),
+      new Keg("Faux PBR", "Blake's Brews", 500, 5),
       new Keg("Lorem Ipsum Lager", "Epibrewus", 620, 7.5),
       new Keg("Pliny the Coder", "Epibrewus", 868, 8)
   ];
@@ -33,9 +34,15 @@ export class AppComponent {
     this.selectedKeg = clickedKeg;
   }
   finishedEditing() {
+    this.selectedKeg.setPriceColor();
+    this.selectedKeg.setCostPerPint();
     this.selectedKeg = null;
   }
   addKeg(newKegFromChild: Keg) {
     this.masterKegList.push(newKegFromChild);
+  }
+
+  sellPint(pintSold: Keg){
+    pintSold.pintsLeft--;
   }
 }
