@@ -4,12 +4,18 @@ import { Keg } from './keg.model';
 @Component({
   selector: 'keg-list',
   template: `
-    <select (change)="onChange($event.target.value)">
+    <select (change)="onFullnessChange($event.target.value)">
       <option value="all" selected="selected">Show All Kegs</option>
       <option value="low">Show Low Kegs</option>
       <option value="full">Show Non-Low Kegs </option>
     </select>
-    <div *ngFor ="let currentKeg of childKegList | PintsRemaining:selectedFullness">
+    <select (change)="onPriceChange($event.target.value)">
+      <option value="all" selected="selected">Show All Kegs</option>
+      <option value="cheap">Show Cheap Kegs</option>
+      <option value="medium">Show Medium-Priced Kegs </option>
+      <option value="expensive">Show Expensive Kegs </option>
+    </select>
+    <div *ngFor ="let currentKeg of childKegList | PintsRemaining:selectedFullness | sortPrice:priceRange">
       <div class ="kegDiv">
         <h3>{{ currentKeg.name }} by {{ currentKeg.brand}}</h3>
         <h5 [style.color]="currentKeg.priceColor">Cost: $\{{ currentKeg.price }} per keg. ($\{{ currentKeg.costPerPint }} per pint.)</h5>
@@ -27,9 +33,12 @@ export class KegListComponent {
   @Output() clickSender = new EventEmitter();
   @Output() sellClickSender = new EventEmitter();
   public selectedFullness: string = "all";
-  onChange(optionFromMenu){
+  public priceRange: string = "all";
+  onFullnessChange(optionFromMenu){
     this.selectedFullness = optionFromMenu;
-    console.log(this.selectedFullness);
+    }
+  onPriceChange(optionFromMenu){
+    this.priceRange = optionFromMenu;
   }
   editButtonHasBeenClicked(kegToEdit: Keg) {
     this.clickSender.emit(kegToEdit)

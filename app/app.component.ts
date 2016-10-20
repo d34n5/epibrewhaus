@@ -25,7 +25,7 @@ import { Keg } from './keg.model';
 export class AppComponent {
   public masterKegList: Keg[] = [
       new Keg("Dean's DIPA", "Epibrewus", 749, 9),
-      new Keg("Faux PBR", "Blake's Brews", 500, 5),
+      new Keg("Faux PBR", "Blake's Brews", 400, 5),
       new Keg("Lorem Ipsum Lager", "Epibrewus", 620, 7.5),
       new Keg("Pliny the Coder", "Epibrewus", 868, 8)
   ];
